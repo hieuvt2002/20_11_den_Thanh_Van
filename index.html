@@ -449,7 +449,7 @@
                 <div class="board">
                     <div class="date">
                         <b>20/11</b>
-                        <span>Tri ân người lái đò thầm lặng</span>
+
                         <svg class="flower" viewBox="0 0 100 130" fill="none" stroke="#f3f1e7" stroke-width="2.2"
                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M50 124C50 100 48 86 50 66" />
@@ -515,123 +515,28 @@
             </div>
         </section>
 
-        <section class="panel" aria-labelledby="ptitle">
-            <h2 id="ptitle">Viết lời chúc của em</h2>
-            <p class="hint">Nhập tên để lá thư mang đúng tên cô và tên em, rồi chọn nội dung phù hợp.</p>
-            <div class="grid">
-                <div><label for="teacher">Tên cô giáo</label><input id="teacher" type="text" maxlength="40"
-                        placeholder="Ví dụ: Lan" autocomplete="off"></div>
-                <div><label for="student">Tên của em</label><input id="student" type="text" maxlength="40"
-                        placeholder="Ví dụ: Minh Anh" autocomplete="off"></div>
-            </div>
-            <div class="tabs" role="group" aria-label="Chọn nội dung lời chúc">
-                <button class="tab" type="button" data-i="0" aria-pressed="true">Lời tri ân</button>
-                <button class="tab" type="button" data-i="1" aria-pressed="false">Ngắn gọn, trang trọng</button>
-                <button class="tab" type="button" data-i="2" aria-pressed="false">Chúc sức khỏe, hạnh phúc</button>
-            </div>
-            <div class="actions">
-                <button class="btn" type="button" id="send">Gửi lời chúc</button>
-                <button class="btn ghost" type="button" id="copy">Sao chép lời chúc</button>
-                <button class="btn ghost" type="button" id="share">Chia sẻ</button>
-                <span class="status" id="status" role="status"></span>
-            </div>
-        </section>
-
-        <p class="proverb">“Một chữ cũng là thầy, nửa chữ cũng là thầy.”<small>Tục ngữ Việt Nam</small></p>
+        <p class="proverb">“Một chữ cũng là thầy, nửa chữ cũng là thầy.”<small></small></p>
     </main>
 
     <script>
         (function () {
-            var T = [
-                function (t) {
-                    return [
-                        "Nhân ngày Nhà giáo Việt Nam 20/11, em xin kính gửi đến cô lời tri ân sâu sắc nhất.",
-                        "Cảm ơn cô đã tận tâm dìu dắt, không chỉ truyền cho chúng em kiến thức mà còn dạy chúng em cách làm người. Những bài giảng và lời dặn dò của cô sẽ mãi là hành trang quý giá trên con đường em đi.",
-                        "Kính chúc cô luôn mạnh khỏe, hạnh phúc và giữ mãi ngọn lửa nhiệt huyết với nghề."
-                    ]
-                },
-                function (t) {
-                    return [
-                        "Nhân ngày 20/11, em kính chúc cô một ngày Nhà giáo Việt Nam thật ý nghĩa.",
-                        "Em xin chân thành cảm ơn cô vì sự tận tụy và những điều cô đã dạy em.",
-                        "Kính chúc cô sức khỏe dồi dào và luôn thành công trong sự nghiệp trồng người."
-                    ]
-                },
-                function (t) {
-                    return [
-                        "Ngày 20/11 về, em xin gửi đến cô muôn vàn lời chúc tốt đẹp nhất.",
-                        "Cô đã vất vả vì từng thế hệ học trò, nên em mong cô luôn có sức khỏe, nụ cười và những phút giây bình yên bên gia đình.",
-                        "Chúc cô mãi tươi trẻ, vui vẻ và được yêu thương, kính trọng trong mỗi lớp học cô bước vào."
-                    ]
-                }
+            var lines = [
+                "Nhân ngày 20/11, chúc cậu có một ngày thật vui và ý nghĩa nhé.",
+                "Chúc cậu luôn giữ được sự nhiệt huyết với công việc gia sư, học tập thật tốt và sớm trở thành một bác sĩ giỏi trong tương lai.",
+                "Mong rằng những điều tốt đẹp cậu dành cho mọi người cũng sẽ quay trở lại với cậu.",
+                "Và hy vọng những ngày sắp tới, cậu sẽ luôn có thật nhiều niềm vui, có người quan tâm, sẻ chia và khiến cậu mỉm cười nhiều hơn nhé 😊"
             ];
-            var cur = 0, lines = [];
-            var el = document.getElementById('letter'), st = document.getElementById('status');
-            var teacher = document.getElementById('teacher'), student = document.getElementById('student');
-
-            function clean(v) { return v.replace(/\s+/g, ' ').trim(); }
-            function build() {
-                var t = clean(teacher.value), s = clean(student.value);
-                var to = 'Kính gửi cô' + (t ? ' ' + t : '') + ',';
-                var sign = 'Học trò của cô' + (s ? ',' : '');
-                lines = [to].concat(T[cur](t), [sign, s].filter(Boolean));
-                return lines;
-            }
+            var el = document.getElementById('letter');
             function render() {
-                build();
                 el.textContent = '';
-                var n = lines.length, signCount = (clean(student.value) ? 2 : 1), body = n - signCount;
                 lines.forEach(function (text, i) {
                     var p = document.createElement('p');
-                    p.className = 'line' + (i === 0 ? ' to' : '');
+                    p.className = 'line';
                     p.style.setProperty('--d', (i * 0.9) + 's');
-                    if (i >= body) {
-                        if (i === body) {
-                            p.className += ' sign';
-                            p.textContent = text;
-                            if (signCount === 2) {
-                                var em = document.createElement('em');
-                                em.textContent = lines[i + 1];
-                                p.appendChild(em);
-                            }
-                            el.appendChild(p);
-                        }
-                        return;
-                    }
                     p.textContent = text;
                     el.appendChild(p);
                 });
             }
-            function say(m) { st.textContent = m; setTimeout(function () { if (st.textContent === m) st.textContent = ''; }, 3200); }
-            function plain() { build(); return lines.join('\n\n'); }
-
-            document.querySelectorAll('.tab').forEach(function (b) {
-                b.addEventListener('click', function () {
-                    cur = +b.dataset.i;
-                    document.querySelectorAll('.tab').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-                    render();
-                });
-            });
-            document.getElementById('send').addEventListener('click', function () { render(); burst(); say('Lời chúc đã được viết lên bảng.'); });
-            document.getElementById('copy').addEventListener('click', function () {
-                var txt = plain();
-                function fallback() {
-                    var a = document.createElement('textarea'); a.value = txt; a.style.position = 'fixed'; a.style.opacity = '0';
-                    document.body.appendChild(a); a.select();
-                    try { document.execCommand('copy'); say('Đã sao chép lời chúc.'); } catch (e) { say('Không sao chép được, hãy chọn và sao chép thủ công.'); }
-                    document.body.removeChild(a);
-                }
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(txt).then(function () { say('Đã sao chép lời chúc.'); }, fallback);
-                } else fallback();
-            });
-            document.getElementById('share').addEventListener('click', function () {
-                var txt = plain();
-                if (navigator.share) { navigator.share({ title: 'Lời chúc 20/11', text: txt }).catch(function () { }); }
-                else { document.getElementById('copy').click(); }
-            });
-            [teacher, student].forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') { render(); burst(); } }); });
-
             /* Falling petals */
             var cv = document.getElementById('petals'), cx = cv.getContext('2d'), W, H, ps = [];
             var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
